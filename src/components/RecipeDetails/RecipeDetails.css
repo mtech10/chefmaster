@@ -1,0 +1,121 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif; 
+}
+
+
+.detailsImg-container {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  margin: 20px auto;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.detailsImg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  object-fit: cover;
+  z-index: 1;
+  margin: auto;
+  border-radius: 10px;
+  filter: brightness(60%);
+}
+
+.detailsContent {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 24px;
+  z-index: 2;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.detailsBadge {
+  display: flex;
+  gap: 10px;
+}
+.detailsCategoryBadge {
+  background-color: #00000080;
+  color: white;
+  border-radius: 10px;
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: fit-content;
+}
+
+.detailsTitle {
+  margin: 0;
+  font-size: 1.1rem;
+  color: white;
+  font-size: 3rem;
+  font-weight: 600;
+}
+
+.detailsDescription {
+  margin: 0;
+  font-size: 1.2rem;
+  color: white;
+  font-weight: 400;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.detailsDifficultyBadge {
+  color: white;
+  border-radius: 10px;
+  padding: 4px 12px;
+  box-sizing: border-box;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badge-easy {
+  background-color: #2b8a4e;
+  color: #e6f7ec;
+}
+
+.badge-medium {
+  background-color: #b78a0b;
+  color: #fef7e1;
+}
+
+.badge-hard {
+  background-color: #c92a2a;
+  color: #fce8e8;
+}
+
+.description {
+  border-radius: 12px;
+  border: 1px solid #d1cfcf;
+  box-shadow: 0 2px 8px rgba(31, 31, 31, 0.04);
+  padding: 24px;
+  background-color: white;
+  margin: 20px auto;
+}
+
+.description h2 {
+  font-size: 2rem;
+  margin-bottom: 12px;
+  color: #222;
+}
+
+.description p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #555;
+}

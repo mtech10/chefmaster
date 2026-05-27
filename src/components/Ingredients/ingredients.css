@@ -1,0 +1,119 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif; 
+}
+
+.recipe-content-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
+    color: #333;
+    margin-top: 40px;
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 24px;
+    color: #1a1a1a;
+}
+
+.ingredient-container {
+    background-color: #fafafa;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0, 0.3);
+    height: fit-content;
+    width: 500px;
+}
+
+.ingredient-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ingredient-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.bullet {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background-color: #f8dcc6;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.bullet2 {
+    width: 8px;
+    height: 8px;
+    background-color: #ff6b00;
+    border-radius: 50%;
+}
+
+.ingredient-text {
+    font-size: 0.95rem;
+    color: #444;
+}
+
+.instructions {
+    background-color: #fafafa;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0, 0.3);
+    height: fit-content;
+}
+
+.instruction-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.instruction-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.instruction-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background-color: #ff6b00;
+  color: white;
+  border-radius: 50%;
+  font-size: 0.9rem;
+  font-weight: 600;
+  flex-shrink: 0;
+  margin-top: 2px; 
+}
+
+.instruction-text {
+    line-height: 1.5;
+    color: #444;
+    padding-top: 4px;
+}
+
+@media (max-width: 768px) {
+    .recipe-content-container {
+        display: flex;
+        flex-direction: column;
+        margin: 30px;
+    }
+    .ingredient-container {
+        position: initial;
+    }
+}

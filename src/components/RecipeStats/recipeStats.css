@@ -1,0 +1,59 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif; 
+}
+
+.recipe-stats-container {
+  margin-top: 20px;
+  display: flex;
+  gap: 16px;
+  width: 100%;
+}
+
+.stat-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 24px 16px;
+  border-radius: 12px;
+  border: 1px solid #d1cfcf;
+  box-shadow: 0 2px 8px rgba(31, 31, 31, 0.04);
+}
+
+.stat-icon {
+  width: 28px;
+  height: 28px;
+  color: #ff6b00;
+  margin-bottom: 12px;
+}
+
+.stat-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: #777777;
+  margin-bottom: 6px;
+}
+
+.stat-value {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+@media (max-width: 600px) {
+  .recipe-stats-container {
+    flex-wrap: wrap;
+  }
+
+  .stat-card {
+    flex: 1 1 calc(50% - 8px); /* 2 columns on mobile */
+  }
+}

@@ -1,0 +1,81 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif; 
+}
+
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  z-index: 10000;
+  min-width: 320px;
+  max-width: 400px;
+  border: 1px solid black;
+}
+
+.toast-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  flex-shrink: 0;
+}
+
+.toast-icon.success {
+  background-color: green; 
+}
+
+.toast-icon.error {
+  background-color: #d32f2f; 
+}
+
+.toast-icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+.toast-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.toast-content h4 {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #111;
+  font-weight: 700;
+}
+
+.toast-content p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.slide-in {
+  animation: slideInRight 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

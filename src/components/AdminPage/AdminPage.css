@@ -1,0 +1,267 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif; 
+}
+
+.admin-page {
+    background-color: #f8f9fa;
+}
+
+.admin-container {
+  max-width: 1200px;
+  margin: 10px auto;
+  padding: 0 20px;
+  background: rgb(255, 255, 255);
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.form-card h3 {
+  padding: 20px 0;
+}
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.admin-header h2 {
+  font-size: 2rem;
+  color: #222;
+  padding: 20px 0;
+}
+
+.admin-header p {
+  color: #666;
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.toggle-form-btn {
+    display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.plus-icon {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.3s ease; 
+}
+
+.toggle-form-btn.add {
+  background-color: #222;
+  color: white;
+}
+
+.toggle-form-btn.add:hover .plus-icon {
+  transform: rotate(90deg);
+}
+
+.toggle-form-btn.cancel {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.dashboard-section {
+  margin-top: 40px;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  color: #222;
+  margin-bottom: 24px;
+  border-bottom: 2px solid #eaeaea;
+  padding-bottom: 10px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 12px;
+  border: 1px dashed #ccc;
+  color: #666;
+}
+
+.empty-state p {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #222;
+  margin-bottom: 8px;
+}
+
+.admin-message {
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.admin-message.success {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.admin-message.error {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.input-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #444;
+}
+
+.input-group input,
+.input-group select,
+.input-group textarea {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.input-group input:focus,
+.input-group select:focus,
+.input-group textarea:focus {
+  outline: none;
+  border-color: #222;
+}
+
+.file-upload-group input {
+  padding: 8px;
+  background-color: #f8f9fa;
+  cursor: pointer;
+}
+
+.submit-btn {
+  margin-top: 10px;
+  padding: 16px;
+  background-color: #222;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background-color: #444;
+}
+
+.submit-btn:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.section-spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 250px; 
+  width: 100%;
+}
+
+.dashboard-big-spinner {
+  width: 70px;
+  height: 70px;
+  border: 6px solid #f0f0f0;
+  border-top: 6px solid #ff4b4b;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* Container for the buttons */
+.admin-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #f0f0f0; /* A clean separator line */
+  justify-content: flex-start; /* Keeps them aligned to the left */
+}
+
+/* Base styles for both buttons */
+.btn-edit, .btn-delete {
+  padding: 6px 18px;
+  border-radius: 20px; /* Gives them that modern pill shape */
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: transparent;
+}
+
+/* Edit Button Styling (Blue) */
+.btn-edit {
+  border: 1px solid #007bff;
+  color: #007bff;
+}
+
+.btn-edit:hover {
+  background-color: #e6f2ff;
+  transform: translateY(-2px);
+}
+
+/* Delete Button Styling (Red) */
+.btn-delete {
+  border: 1px solid #dc3545;
+  color: #dc3545;
+}
+
+.btn-delete:hover {
+  background-color: #ffeeee;
+  transform: translateY(-2px);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 1100px) { .dashboard-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 850px) { .dashboard-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .dashboard-grid { grid-template-columns: 1fr; } }
