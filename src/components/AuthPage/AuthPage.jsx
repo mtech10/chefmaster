@@ -27,7 +27,7 @@ const AuthPage = () => {
     setLoading(true);
 
     const endpoint = isLogin ? "/login" : "/register";
-    const url = `https://chefmaster-85kn.onrender.com/${endpoint}`;
+    const url = `https://chefmaster-85kn.onrender.com${endpoint}`;
 
     const payload = isLogin
       ? { email, password }
