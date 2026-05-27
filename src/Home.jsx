@@ -23,7 +23,7 @@ const Home = ({ isMainHome = true }) => {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/recipes");
+        const response = await fetch("https://chefmaster-85kn.onrender.com//api/recipes");
         if (!response.ok) {
           throw new Error("Failed to fetch recipes");
         }
@@ -41,7 +41,7 @@ const Home = ({ isMainHome = true }) => {
       if (!token) return;
 
       try {
-        const response = await fetch("http://localhost:3000/api/favorites", {
+        const response = await fetch("https://chefmaster-85kn.onrender.com//api/favorites", {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (response.status === 401 || response.status === 403) {

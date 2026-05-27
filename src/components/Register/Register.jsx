@@ -11,7 +11,7 @@ const Register = ({ switchToLogin }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios.post('http://localhost:3000/register', { email, password })
+    axios.post('https://chefmaster-85kn.onrender.com//register', { email, password })
       .then((response) => {
         const { token, user } = response.data;
         

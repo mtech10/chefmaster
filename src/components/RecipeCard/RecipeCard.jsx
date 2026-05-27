@@ -44,8 +44,8 @@ const RecipeCard = ({
   //     const token = localStorage.getItem("token");
   //     const method = newFavoriteState ? "POST" : "DELETE";
   //     const url = newFavoriteState
-  //       ? `http://localhost:3000/api/favorites/toggle`
-  //       : `http://localhost:3000/api/favorites/toggle/${recipe.id}`;
+  //       ? `https://chefmaster-85kn.onrender.com//api/favorites/toggle`
+  //       : `https://chefmaster-85kn.onrender.com//api/favorites/toggle/${recipe.id}`;
 
   //     const response = await fetch(url, {
   //       method: method,
@@ -81,7 +81,7 @@ const RecipeCard = ({
       const toggleInDatabase = async () => {
         try {
           const token = localStorage.getItem("token");
-          const response = await fetch("http://localhost:3000/api/favorites/toggle", {
+          const response = await fetch("https://chefmaster-85kn.onrender.com//api/favorites/toggle", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

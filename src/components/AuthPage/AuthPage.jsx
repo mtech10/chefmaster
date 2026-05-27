@@ -27,7 +27,7 @@ const AuthPage = () => {
     setLoading(true);
 
     const endpoint = isLogin ? "/login" : "/register";
-    const url = `http://localhost:3000${endpoint}`;
+    const url = `https://chefmaster-85kn.onrender.com/${endpoint}`;
 
     const payload = isLogin
       ? { email, password }
@@ -64,13 +64,13 @@ const AuthPage = () => {
             message: "Registration successful! Please log in.",
             type: "success",
           });
-                    setIsLogin(true);
+          setIsLogin(true);
           setPassword("");
           setFirstName("");
           setLastName("");
           setUsername("");
         }
-      }  else {
+      } else {
         setToast({
           isOpen: true,
           title: isLogin ? "Login Failed" : "Registration Failed",
@@ -135,7 +135,7 @@ const AuthPage = () => {
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   required
-                 placeholder="Username"
+                  placeholder="Username"
                 />
               </div>
             </>
