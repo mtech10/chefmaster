@@ -135,7 +135,7 @@
   }
 
   .navRight {
-    position: fixed;
+    position: fixed !important;
     top: 0 !important;
     left: -100%;
     width: 280px !important; 
@@ -207,6 +207,16 @@
     cursor: pointer !important;
     background-color: transparent !important;
     transition: all 0.2s ease !important;
+  }
+
+  .nav-btn.login-btn {
+    color: black !important; 
+    background-color: transparent !important;
+  }
+
+  .nav-btn.login-btn:hover {
+    color: #ff6b00 !important;
+    background-color: #fff0e6 !important;
   }
 
   .nav-btn.dashboard-btn {
