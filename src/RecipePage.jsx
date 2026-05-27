@@ -39,7 +39,7 @@ const RecipePage = () => {
       const fetchSingleRecipe = async () => {
         try {
           const response = await fetch(
-            `https://chefmaster-85kn.onrender.com//api/recipes/${id}`,
+            `https://chefmaster-85kn.onrender.com/api/recipes/${id}`,
           );
           if (!response.ok) throw new Error("Recipe not found");
 
@@ -78,7 +78,7 @@ const RecipePage = () => {
       const token = localStorage.getItem("token");
 
       try {
-        const response = await fetch("https://chefmaster-85kn.onrender.com//api/favorites", {
+        const response = await fetch("https://chefmaster-85kn.onrender.com/api/favorites", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -108,7 +108,7 @@ const RecipePage = () => {
   const executeDelete = async () => {
     setIsDeleting(true);
     try {
-      const response = await fetch(`https://chefmaster-85kn.onrender.com//api/recipes/${id}`, {
+      const response = await fetch(`https://chefmaster-85kn.onrender.com/api/recipes/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -137,7 +137,7 @@ const RecipePage = () => {
   //     const token = localStorage.getItem("token");
 
   //     const response = await fetch(
-  //       "https://chefmaster-85kn.onrender.com//api/favorites/toggle",
+  //       "https://chefmaster-85kn.onrender.com/api/favorites/toggle",
   //       {
   //         method: "POST",
   //         headers: {
@@ -167,7 +167,7 @@ const RecipePage = () => {
       const updateDb = async () => {
         try {
           const token = localStorage.getItem("token");
-          const response = await fetch("https://chefmaster-85kn.onrender.com//api/favorites/toggle", {
+          const response = await fetch("https://chefmaster-85kn.onrender.com/api/favorites/toggle", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

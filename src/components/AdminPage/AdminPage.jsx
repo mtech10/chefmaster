@@ -51,7 +51,7 @@ const AdminPage = () => {
     const fetchFavorites = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch("https://chefmaster-85kn.onrender.com//api/favorites", {
+        const response = await fetch("https://chefmaster-85kn.onrender.com/api/favorites", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -68,7 +68,7 @@ const AdminPage = () => {
     const fetchMyRecipes = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch("https://chefmaster-85kn.onrender.com//api/my-recipes", {
+        const response = await fetch("https://chefmaster-85kn.onrender.com/api/my-recipes", {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (response.ok) {
@@ -171,8 +171,8 @@ const AdminPage = () => {
       const token = localStorage.getItem("token");
 
       const url = editingId
-        ? `https://chefmaster-85kn.onrender.com//api/recipes/${editingId}`
-        : "https://chefmaster-85kn.onrender.com//api/recipes";
+        ? `https://chefmaster-85kn.onrender.com/api/recipes/${editingId}`
+        : "https://chefmaster-85kn.onrender.com/api/recipes";
 
       const method = editingId ? "PUT" : "POST";
 
@@ -240,7 +240,7 @@ const AdminPage = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `https://chefmaster-85kn.onrender.com//api/recipes/${deleteModal.recipeId}`,
+        `https://chefmaster-85kn.onrender.com/api/recipes/${deleteModal.recipeId}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` },

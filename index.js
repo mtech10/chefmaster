@@ -31,7 +31,10 @@ const upload = multer({ storage: storage });
 
 
 app.use(cors({
-  origin: '*',
+  origin: [
+    'http://localhost:5173', 
+    'https://chefmaster-frontend.onrender.com'
+  ],
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
@@ -325,7 +328,7 @@ app.put('/api/recipes/:id', verifyToken, upload.single('image'), async (req, res
    let sqlQuery, values;
 
     if (req.file) {
-      const imageUrl = `https://chefmaster-85kn.onrender.com//uploads/${req.file.filename}`;
+      const imageUrl = `https://chefmaster-85kn.onrender.com/uploads/${req.file.filename}`;
       sqlQuery = `UPDATE recipes SET title=$1, category=$2, description=$3, ingredients=$4, instructions=$5, prep_time=$6, calories=$7, image_url=$8, servings=$9, difficulty=$10, cook_time=$11 WHERE id=$12 AND author_id=$13 RETURNING *`;
       values = [title, category, description, ingredients, instructions, prepTime, calories, imageUrl, servings, difficulty, cookTime, id, req.user.id];
     } else {
