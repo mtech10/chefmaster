@@ -6,6 +6,8 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import multer from 'multer';
+import { v2 as cloudinary } from 'cloudinary';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -19,16 +21,21 @@ const { Pool } = pkg;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/');
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname));
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'recipe_app_uploads',
+    allowed_formats: ['jpg', 'jpeg', 'png', 'webp']
   }
 });
-const upload = multer({ storage: storage });
 
+const upload = multer({ storage: storage });
 
 app.use(cors({
   origin: [
@@ -217,8 +224,7 @@ app.post('/api/recipes', verifyToken, upload.single('image'), async (req, res) =
   try {
     const { title, category, description, ingredients, instructions, prepTime, calories, servings, difficulty, cookTime } = req.body;
     
-    // Change it to this:
-const imageUrl = req.file ? `https://chefmaster-85kn.onrender.com/uploads/${req.file.filename}` : null;
+const imageUrl = req.file ? req.file.path : null;
     const authorId = req.user.id;
 
     const sqlQuery = `
@@ -328,7 +334,7 @@ app.put('/api/recipes/:id', verifyToken, upload.single('image'), async (req, res
    let sqlQuery, values;
 
     if (req.file) {
-      const imageUrl = `https://chefmaster-85kn.onrender.com/uploads/${req.file.filename}`;
+      const imageUrl = req.file.path;
       sqlQuery = `UPDATE recipes SET title=$1, category=$2, description=$3, ingredients=$4, instructions=$5, prep_time=$6, calories=$7, image_url=$8, servings=$9, difficulty=$10, cook_time=$11 WHERE id=$12 AND author_id=$13 RETURNING *`;
       values = [title, category, description, ingredients, instructions, prepTime, calories, imageUrl, servings, difficulty, cookTime, id, req.user.id];
     } else {
