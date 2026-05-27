@@ -217,8 +217,8 @@ app.post('/api/recipes', verifyToken, upload.single('image'), async (req, res) =
   try {
     const { title, category, description, ingredients, instructions, prepTime, calories, servings, difficulty, cookTime } = req.body;
     
-    const imageUrl = req.file ? `http://localhost:${PORT}/uploads/${req.file.filename}` : null;
-
+    // Change it to this:
+const imageUrl = req.file ? `https://chefmaster-85kn.onrender.com/uploads/${req.file.filename}` : null;
     const authorId = req.user.id;
 
     const sqlQuery = `
