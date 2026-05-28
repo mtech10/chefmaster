@@ -1,7 +1,7 @@
 import React from "react";
 import "./RecipeDetails.css";
 
-const RecipeDetails = ({ recipe }) => {
+const RecipeDetails = ({ recipe, isLoggedIn, isFavorite, onFavoriteClick }) => {
   const { imageUrl, category, title, description, difficulty } = recipe;
 
   const getDifficultyClass = (level) => {
@@ -19,6 +19,14 @@ const RecipeDetails = ({ recipe }) => {
   return (
     <div className="recipeDetails">
       <div className="detailsImg-container">
+        {isLoggedIn && (
+          <button 
+            className="favorite-btn" 
+            onClick={onFavoriteClick}
+          >
+            {isFavorite ? "❤️" : "🤍"}
+          </button>
+        )}
         <img src={imageUrl} alt={title} className="detailsImg" />
         <div className="detailsContent">
           <div className="detailsBadge">

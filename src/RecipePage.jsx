@@ -78,9 +78,12 @@ const RecipePage = () => {
       const token = localStorage.getItem("token");
 
       try {
-        const response = await fetch("https://chefmaster-85kn.onrender.com/api/favorites", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await fetch(
+          "https://chefmaster-85kn.onrender.com/api/favorites",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          },
+        );
 
         if (response.ok) {
           const favorites = await response.json();
@@ -108,10 +111,13 @@ const RecipePage = () => {
   const executeDelete = async () => {
     setIsDeleting(true);
     try {
-      const response = await fetch(`https://chefmaster-85kn.onrender.com/api/recipes/${id}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await fetch(
+        `https://chefmaster-85kn.onrender.com/api/recipes/${id}`,
+        {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
 
       if (response.ok) {
         navigate("/", { replace: true });
@@ -167,14 +173,17 @@ const RecipePage = () => {
       const updateDb = async () => {
         try {
           const token = localStorage.getItem("token");
-          const response = await fetch("https://chefmaster-85kn.onrender.com/api/favorites/toggle", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
+          const response = await fetch(
+            "https://chefmaster-85kn.onrender.com/api/favorites/toggle",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({ recipeId: recipe.id }), // uses 'recipe.id' from the page state
             },
-            body: JSON.stringify({ recipeId: recipe.id }) // uses 'recipe.id' from the page state
-          });
+          );
 
           if (!response.ok) {
             setIsFavorite(!newState);
@@ -184,7 +193,7 @@ const RecipePage = () => {
           setIsFavorite(!newState);
         }
       };
-      
+
       updateDb();
       return newState; // Instantly updates the emoji on the page!
     });
@@ -207,23 +216,12 @@ const RecipePage = () => {
       <main
         style={{ maxWidth: "1000px", margin: "40px auto", padding: "0 20px" }}
       >
-        {isLoggedIn && (
-          <button
-            className={`favorite-btn ${isFavorite ? "active" : ""}`}
-            onClick={handleFavoriteClick}
-            style={{
-              color: isFavorite ? "red" : "white",
-              border: "none",
-              background: "none",
-              cursor: "pointer",
-              fontSize: "24px",
-            }}
-          >
-            {isFavorite ? "❤️" : "🤍"}
-          </button>
-        )}
-        <RecipeDetails recipe={recipe} />
-
+        <RecipeDetails
+          recipe={recipe}
+          isLoggedIn={isLoggedIn}
+          isFavorite={isFavorite}
+          onFavoriteClick={handleFavoriteClick}
+        />
         {isAuthor && (
           <div
             style={{

@@ -7,7 +7,7 @@ const Toast = ({ isOpen, title, message, type = "success", onClose }) => {
     if (isOpen) {
       const timer = setTimeout(() => {
         onClose();
-      }, 60000);
+      }, 6000);
       return () => clearTimeout(timer);
     }
   }, [isOpen, onClose]);
