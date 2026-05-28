@@ -1,19 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./recipeCard.css";
 
 const RecipeCard = ({
   recipe,
   onCardClick,
-  isInitiallyFavorite = false,
-  onUnfavorite,
   showAdminControls = false,
   onEdit,
   onDelete,
 }) => {
   const navigate = useNavigate();
-  const [isFavorite, setIsFavorite] = useState(isInitiallyFavorite || false);
-
   const isLoggedIn = !!localStorage.getItem("token");
 
   const {
@@ -27,84 +23,6 @@ const RecipeCard = ({
     difficulty,
     calories,
   } = recipe;
-
-  useEffect(() => {
-    setIsFavorite(isInitiallyFavorite || false);
-  }, [isInitiallyFavorite]);
-
-  // const handleFavoriteClick = async (e) => {
-  //   e.stopPropagation();
-
-  //   if (!isLoggedIn) return;
-
-  //   const newFavoriteState = !isFavorite;
-  //   setIsFavorite(newFavoriteState);
-
-  //   try {
-  //     const token = localStorage.getItem("token");
-  //     const method = newFavoriteState ? "POST" : "DELETE";
-  //     const url = newFavoriteState
-  //       ? `https://chefmaster-85kn.onrender.com/api/favorites/toggle`
-  //       : `https://chefmaster-85kn.onrender.com/api/favorites/toggle/${recipe.id}`;
-
-  //     const response = await fetch(url, {
-  //       method: method,
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //       body: newFavoriteState ? JSON.stringify({ recipeId: id }) : null,
-  //     });
-
-  //     const data = await response.json();
-  //     if (response.ok) {
-  //       setIsFavorite(!newFavoriteState);
-  //       if (!newFavoriteState && onUnfavorite) {
-  //         onUnfavorite(recipe.id);
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.error("Failed to toggle favorite", error);
-  //     setIsFavorite(!newFavoriteState);
-  //   }
-  // };
-
-  const handleFavoriteClick = (e) => {
-    e.stopPropagation();
-    if (!isLoggedIn) return;
-
-    // 🔥 Functional update guarantees instant UI reaction
-    setIsFavorite((prev) => {
-      const newState = !prev; // Calculate what it should change to
-
-      // Fire the backend request in the background
-      const toggleInDatabase = async () => {
-        try {
-          const token = localStorage.getItem("token");
-          const response = await fetch("https://chefmaster-85kn.onrender.com/api/favorites/toggle", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ recipeId: id }) // uses 'id' from your card props
-          });
-
-          if (!response.ok) {
-             setIsFavorite(!newState); // Revert ONLY if the server crashes
-          } else if (!newState && onUnfavorite) {
-             onUnfavorite(id); // Handle dashboard removal
-          }
-        } catch (error) {
-          console.error("Failed to toggle favorite", error);
-          setIsFavorite(!newState); // Revert on network error
-        }
-      };
-      
-      toggleInDatabase();
-      return newState; // Instantly turns the heart red/white
-    });
-  };
 
   const getDifficultyClass = (level) => {
     switch (level.toLowerCase()) {
@@ -209,23 +127,7 @@ const RecipeCard = ({
           >
             {difficulty}
           </span>
-          {isLoggedIn && (
-            <button
-              className={`favorite-btn ${isFavorite ? "active" : ""}`}
-              onClick={handleFavoriteClick}
-              aria-label={
-                isFavorite ? "Remove from favorites" : "Add to favorites"
-              }
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                className="heart-icon"
-              >
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-              </svg>
-            </button>
-          )}
+  
           <span className="calories-text">{calories} cal</span>
         </div>
       </div>
