@@ -127,7 +127,7 @@ const RecipeCard = ({
           >
             {difficulty}
           </span>
-  
+
           <span className="calories-text">{calories} cal</span>
         </div>
       </div>
