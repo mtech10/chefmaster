@@ -71,10 +71,14 @@ const AuthPage = () => {
           setUsername("");
         }
       } else {
+        const errorMessage = data.errors
+        ? data.errors.map((err) => err.msg).join("\n")
+        : data.message || "Something went wrong. Please try again.";
+
         setToast({
           isOpen: true,
           title: isLogin ? "Login Failed" : "Registration Failed",
-          message: data.message || "Something went wrong. Please try again.",
+          message: errorMessage,
           type: "error",
         });
       }
