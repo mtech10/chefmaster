@@ -38,8 +38,6 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage: storage });
 
-const JWT_SECRET = process.env.JWT_SECRET;
-
 app.use(
   cors({
     origin: [
@@ -77,6 +75,8 @@ const validate = (req, res, next) => {
   }
   next();
 };
+
+const SECRET_KEY = 'mysecretkey';
 
 app.get("/", (req, res) => {
   res.json({ message: "Server is running" });
@@ -159,7 +159,7 @@ app.post(
 
       const token = jwt.sign(
         { id: user.id, email: user.email },
-        process.env.JWT_SECRET,
+        SECRET_KEY,
         {
           expiresIn: "1h",
         },
@@ -210,7 +210,7 @@ app.post(
         return res.status(401).json({ message: "Invalid email or password" });
       }
 
-      const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, {
+      const token = jwt.sign({ id: user.id, email: user.email }, SECRET_KEY, {
         expiresIn: "1h",
       });
 
@@ -236,7 +236,7 @@ function verifyToken(req, res, next) {
       .json({ message: "Access denied: No token provided" });
   }
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+  jwt.verify(token, SECRET_KEY, (err, decoded) => {
     if (err) {
       return res.status(403).json({ message: "Invalid or expired token" });
     }
