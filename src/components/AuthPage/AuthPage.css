@@ -124,3 +124,11 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+.auth-button:disabled,
+.auth-button.button-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #a0a0a0;
+  pointer-events: none;
+}

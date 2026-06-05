@@ -44,10 +44,27 @@ const validateField = (name, value) => {
   }
 };
 
-const emptyForm = { firstName: "", lastName: "", username: "", email: "", password: "" };
-const emptyErrors = { firstName: "", lastName: "", username: "", email: "", password: "" };
-const emptyTouched = { firstName: false, lastName: false, username: false, email: false, password: false };
-
+const emptyForm = {
+  firstName: "",
+  lastName: "",
+  username: "",
+  email: "",
+  password: "",
+};
+const emptyErrors = {
+  firstName: "",
+  lastName: "",
+  username: "",
+  email: "",
+  password: "",
+};
+const emptyTouched = {
+  firstName: false,
+  lastName: false,
+  username: false,
+  email: false,
+  password: false,
+};
 
 const AuthPage = () => {
   const navigate = useNavigate();
@@ -108,6 +125,7 @@ const AuthPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!isFormValid()) return;
     setLoading(true);
 
     const endpoint = isLogin ? "/login" : "/register";
@@ -115,7 +133,13 @@ const AuthPage = () => {
 
     const payload = isLogin
       ? { email: formData.email, password: formData.password }
-      : { firstname: formData.firstName, lastname: formData.lastName, username: formData.username, email: formData.email, password: formData.password };
+      : {
+          firstname: formData.firstName,
+          lastname: formData.lastName,
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+        };
 
     try {
       const response = await fetch(url, {
@@ -153,7 +177,7 @@ const AuthPage = () => {
           setTouched(emptyTouched);
           setErrors(emptyErrors);
         }
-              } else {
+      } else {
         const errorMessage = data.errors
           ? data.errors.map((err) => err.msg).join("\n")
           : data.message || "Something went wrong. Please try again.";
@@ -184,7 +208,6 @@ const AuthPage = () => {
           {isLogin ? "Welcome Back" : "Create an Account"}
         </h2>
 
-       
         <form onSubmit={handleSubmit} className="auth-form">
           {!isLogin && (
             <>
@@ -235,7 +258,6 @@ const AuthPage = () => {
                   value={formData.username}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  
                   placeholder="Username"
                   className={
                     touched.username && errors.username ? "input-error" : ""
@@ -257,7 +279,6 @@ const AuthPage = () => {
               value={formData.email}
               onChange={handleChange}
               onBlur={handleBlur}
-              
               placeholder="Email"
               className={touched.email && errors.email ? "input-error" : ""}
             />
@@ -275,7 +296,6 @@ const AuthPage = () => {
               value={formData.password}
               onChange={handleChange}
               onBlur={handleBlur}
-              
               placeholder="Password"
               className={
                 touched.password && errors.password ? "input-error" : ""
