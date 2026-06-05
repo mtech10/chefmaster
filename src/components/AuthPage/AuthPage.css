@@ -107,3 +107,20 @@
   cursor: pointer;
   text-decoration: underline;
 }
+
+.input-error {
+  border: 1.5px solid #e53e3e;
+  background-color: #fff5f5;
+}
+
+.field-error {
+  display: block;
+  color: #e53e3e;
+  font-size: 0.75rem;
+  margin-top: 4px;
+}
+
+.button-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
