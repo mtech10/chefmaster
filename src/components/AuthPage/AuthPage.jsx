@@ -87,14 +87,28 @@ const AuthPage = () => {
 
     setFormData((prev) => ({ ...prev, [name]: value }));
 
+    if (isLogin && name === "password") {
+    setErrors((prev) => ({
+      ...prev,
+      password: value ? "" : "Password is required",
+    }));
+  } else {
     setErrors((prev) => ({ ...prev, [name]: validateField(name, value) }));
-  };
+  }
+};
 
   const handleBlur = (e) => {
     const { name, value } = e.target;
     setTouched((prev) => ({ ...prev, [name]: true }));
+    if (isLogin && name === "password") {
+    setErrors((prev) => ({
+      ...prev,
+      password: value ? "" : "Password is required",
+    }));
+  } else {
     setErrors((prev) => ({ ...prev, [name]: validateField(name, value) }));
-  };
+  }
+};
 
   const isFormValid = () => {
     if (isLogin) {
