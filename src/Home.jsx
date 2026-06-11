@@ -23,7 +23,9 @@ const Home = ({ isMainHome = true }) => {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const response = await fetch("https://chefmaster-85kn.onrender.com/api/recipes");
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/recipes`,
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch recipes");
         }
@@ -41,18 +43,20 @@ const Home = ({ isMainHome = true }) => {
       if (!token) return;
 
       try {
-        const response = await fetch("https://chefmaster-85kn.onrender.com/api/favorites", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/favorites`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          },
+        );
         if (response.status === 401 || response.status === 403) {
-        console.warn("Token expired. Clearing session.");
-        localStorage.removeItem("token");
-        localStorage.removeItem("username");
-        return; 
-      }
+          console.warn("Token expired. Clearing session.");
+          localStorage.removeItem("token");
+          localStorage.removeItem("username");
+          return;
+        }
         if (response.ok) {
           const data = await response.json();
-          // Extract just the IDs of the favorite recipes into a Set for fast checking
           const ids = new Set(data.map((fav) => fav.id || fav.recipe_id));
           setFavoriteIds(ids);
         }
@@ -91,7 +95,6 @@ const Home = ({ isMainHome = true }) => {
 
   let displayedRecipes = recipes;
 
-  // If they are typing ANYTHING in the search bar, filter everything immediately
   if (searchQuery) {
     displayedRecipes = recipes.filter(
       (recipe) =>
@@ -106,7 +109,6 @@ const Home = ({ isMainHome = true }) => {
 
   return (
     <div>
-      {/* 1. NAVBAR LOGIC: Keep your existing Navbar logic */}
       {viewMode === "categories" ? (
         <Navbar onRecipesClick={() => handleCategoryClick("All")} />
       ) : (
@@ -121,10 +123,6 @@ const Home = ({ isMainHome = true }) => {
           minHeight: "80vh",
         }}
       >
-        {/* =========================================
-            SECTION A: THE MAIN HOMEPAGE (Hero & Categories)
-            Only shows if isMainHome is true AND we are in 'categories' view
-            ========================================= */}
         {isMainHome && viewMode === "categories" && !searchQuery && (
           <>
             <div className="hero-section">
@@ -177,7 +175,6 @@ const Home = ({ isMainHome = true }) => {
         >
           {(!isMainHome || viewMode === "recipes") && (
             <>
-              {/* Header: Only show the category title if we are on the Main Home */}
               {isMainHome && (
                 <div className="recipe-view-header">
                   <h2 className="section-title">

@@ -76,7 +76,7 @@ const validate = (req, res, next) => {
   next();
 };
 
-const SECRET_KEY = 'mysecretkey';
+const JWT_SECRET = process.env.JWT_SECRET;
 
 app.get("/", (req, res) => {
   res.json({ message: "Server is running" });
@@ -88,17 +88,17 @@ app.post(
     body("firstname")
       .notEmpty()
       .withMessage("First name is required")
-      .matches(/^[a-zA-Z]{2,50}$/)
+      .matches(/^[a-zA-Z]{2,20}$/)
       .withMessage(
-        "First name must be letters only, between 2 and 50 characters",
+        "First name must be letters only, between 2 and 20 characters",
       ),
 
     body("lastname")
       .notEmpty()
       .withMessage("Last name is required")
-      .matches(/^[a-zA-Z]{2,50}$/)
+      .matches(/^[a-zA-Z]{2,20}$/)
       .withMessage(
-        "Last name must be letters only, between 2 and 50 characters",
+        "Last name must be letters only, between 2 and 20 characters",
       ),
 
     body("username")
@@ -119,10 +119,10 @@ app.post(
       .notEmpty()
       .withMessage("Password is required")
       .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[.@$!%*?&])[A-Za-z\d.@$!%*?&]{8,}$/,
       )
       .withMessage(
-        "Password must be at least 8 characters and include an uppercase letter, lowercase letter, number and special character (@$!%*?&)",
+        "Password must be at least 8 characters and include an uppercase letter, lowercase letter, number and special character (.@$!%*?&)",
       ),
   ],
   validate,
@@ -157,13 +157,9 @@ app.post(
       );
       const user = newUserResult.rows[0];
 
-      const token = jwt.sign(
-        { id: user.id, email: user.email },
-        SECRET_KEY,
-        {
-          expiresIn: "1h",
-        },
-      );
+      const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, {
+        expiresIn: "1h",
+      });
 
       return res.status(201).json({
         message: "User registered successfully!",
@@ -193,7 +189,6 @@ app.post(
     try {
       const { email, password } = req.body;
 
-
       const result = await pool.query(
         "SELECT id, email, username, password FROM users WHERE email = $1",
         [email],
@@ -210,7 +205,7 @@ app.post(
         return res.status(401).json({ message: "Invalid email or password" });
       }
 
-      const token = jwt.sign({ id: user.id, email: user.email }, SECRET_KEY, {
+      const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, {
         expiresIn: "1h",
       });
 
@@ -236,7 +231,7 @@ function verifyToken(req, res, next) {
       .json({ message: "Access denied: No token provided" });
   }
 
-  jwt.verify(token, SECRET_KEY, (err, decoded) => {
+  jwt.verify(token, JWT_SECRET, (err, decoded) => {
     if (err) {
       return res.status(403).json({ message: "Invalid or expired token" });
     }

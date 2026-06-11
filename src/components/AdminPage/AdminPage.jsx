@@ -51,9 +51,12 @@ const AdminPage = () => {
     const fetchFavorites = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch("https://chefmaster-85kn.onrender.com/api/favorites", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/favorites`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          },
+        );
 
         if (response.ok) {
           const data = await response.json();
@@ -68,9 +71,12 @@ const AdminPage = () => {
     const fetchMyRecipes = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch("https://chefmaster-85kn.onrender.com/api/my-recipes", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/my-recipes`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          },
+        );
         if (response.ok) {
           const data = await response.json();
           setMyRecipes(data);
@@ -171,8 +177,8 @@ const AdminPage = () => {
       const token = localStorage.getItem("token");
 
       const url = editingId
-        ? `https://chefmaster-85kn.onrender.com/api/recipes/${editingId}`
-        : "https://chefmaster-85kn.onrender.com/api/recipes";
+        ? `${import.meta.env.VITE_API_URL}/api/recipes/${editingId}`
+        : `${import.meta.env.VITE_API_URL}/api/recipes`;
 
       const method = editingId ? "PUT" : "POST";
 
@@ -240,7 +246,7 @@ const AdminPage = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `https://chefmaster-85kn.onrender.com/api/recipes/${deleteModal.recipeId}`,
+        `${import.meta.env.VITE_API_URL}/api/recipes/${deleteModal.recipeId}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` },
@@ -254,7 +260,7 @@ const AdminPage = () => {
           message: "The recipe has been removed successfully.",
           type: "success",
         });
-        // Filter out the deleted recipe
+
         setMyRecipes(myRecipes.filter((r) => r.id !== deleteModal.recipeId));
       } else {
         setToast({
@@ -505,7 +511,10 @@ const AdminPage = () => {
                   <RecipeCard
                     key={formattedRecipe.id}
                     recipe={formattedRecipe}
-                    isInitiallyFavorite={favorites.some(fav => fav.id === recipe.id || fav.recipe_id === recipe.id)}
+                    isInitiallyFavorite={favorites.some(
+                      (fav) =>
+                        fav.id === recipe.id || fav.recipe_id === recipe.id,
+                    )}
                     onDelete={() =>
                       setDeleteModal({
                         isOpen: true,

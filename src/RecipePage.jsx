@@ -39,7 +39,7 @@ const RecipePage = () => {
       const fetchSingleRecipe = async () => {
         try {
           const response = await fetch(
-            `https://chefmaster-85kn.onrender.com/api/recipes/${id}`,
+            `${import.meta.env.VITE_API_URL}/api/recipes/${id}`,
           );
           if (!response.ok) throw new Error("Recipe not found");
 
@@ -79,7 +79,7 @@ const RecipePage = () => {
 
       try {
         const response = await fetch(
-          "https://chefmaster-85kn.onrender.com/api/favorites",
+          `${import.meta.env.VITE_API_URL}/api/favorites`,
           {
             headers: { Authorization: `Bearer ${token}` },
           },
@@ -105,14 +105,14 @@ const RecipePage = () => {
   };
 
   const handleDeleteClick = () => {
-    setShowDeleteModal(true); // Opens the modal
+    setShowDeleteModal(true);
   };
 
   const executeDelete = async () => {
     setIsDeleting(true);
     try {
       const response = await fetch(
-        `https://chefmaster-85kn.onrender.com/api/recipes/${id}`,
+        `${import.meta.env.VITE_API_URL}/api/recipes/${id}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` },
@@ -133,40 +133,9 @@ const RecipePage = () => {
     }
   };
 
-  // const handleFavoriteClick = async () => {
-  //   if (!isLoggedIn) return;
-
-  //   const newFavoriteState = !isFavorite;
-  //   setIsFavorite(newFavoriteState);
-
-  //   try {
-  //     const token = localStorage.getItem("token");
-
-  //     const response = await fetch(
-  //       "https://chefmaster-85kn.onrender.com/api/favorites/toggle",
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //         body: JSON.stringify({ recipeId: recipe.id }),
-  //       },
-  //     );
-
-  //     if (!response.ok) {
-  //       setIsFavorite(!newFavoriteState);
-  //     }
-  //   } catch (error) {
-  //     console.error("Failed to toggle favorite", error);
-  //     setIsFavorite(!newFavoriteState);
-  //   }
-  // };
-
   const handleFavoriteClick = () => {
     if (!isLoggedIn || !recipe) return;
 
-    // 🔥 Functional update for the detail page
     setIsFavorite((prev) => {
       const newState = !prev;
 
@@ -174,14 +143,14 @@ const RecipePage = () => {
         try {
           const token = localStorage.getItem("token");
           const response = await fetch(
-            "https://chefmaster-85kn.onrender.com/api/favorites/toggle",
+            `${import.meta.env.VITE_API_URL}/api/favorites/toggle`,
             {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
               },
-              body: JSON.stringify({ recipeId: recipe.id }), // uses 'recipe.id' from the page state
+              body: JSON.stringify({ recipeId: recipe.id }),
             },
           );
 
@@ -195,7 +164,7 @@ const RecipePage = () => {
       };
 
       updateDb();
-      return newState; // Instantly updates the emoji on the page!
+      return newState;
     });
   };
 

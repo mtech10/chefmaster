@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../assets/NavBar/Logo2.png";
@@ -10,26 +9,30 @@ const Navbar = ({ onClick, onRecipesClick }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isLoggedIn = !!localStorage.getItem("token");
 
-const [toast, setToast] = useState({ isOpen: false, title: "", message: "", type: "success" });
+  const [toast, setToast] = useState({
+    isOpen: false,
+    title: "",
+    message: "",
+    type: "success",
+  });
   const [searchInput, setSearchInput] = useState("");
-  
+
   const handleSearchSubmit = (e) => {
     if (e.key === "Enter" && searchInput.trim() !== "") {
-      // Teleport to the recipes page and stick the search word in the URL!
       navigate(`/recipes?search=${searchInput}`);
-      setSearchInput(""); // Clear the box after teleporting
+      setSearchInput("");
     }
   };
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
-    
+
     setToast({
       isOpen: true,
       title: "Signed Out",
       message: "You have successfully logged out.",
-      type: "success"
+      type: "success",
     });
 
     setTimeout(() => {
@@ -40,8 +43,8 @@ const [toast, setToast] = useState({ isOpen: false, title: "", message: "", type
   const navigateAndClose = (path) => {
     if (path === "/" && onClick) {
       onClick();
-    };
-      navigate(path, { state: { forceReset: Date.now() } });
+    }
+    navigate(path, { state: { forceReset: Date.now() } });
     setIsMenuOpen(false);
   };
 
@@ -49,7 +52,7 @@ const [toast, setToast] = useState({ isOpen: false, title: "", message: "", type
     if (onRecipesClick) {
       onRecipesClick();
     } else {
-      navigate("/"); 
+      navigate("/");
     }
     setIsMenuOpen(false);
   };
@@ -57,7 +60,6 @@ const [toast, setToast] = useState({ isOpen: false, title: "", message: "", type
   return (
     <div>
       <div className="navSection">
-        
         <div className="navLeft">
           <img
             className="navLogo"
@@ -68,8 +70,8 @@ const [toast, setToast] = useState({ isOpen: false, title: "", message: "", type
           />
         </div>
 
-        <div 
-          className={`hamburger ${isMenuOpen ? "toggle" : ""}`} 
+        <div
+          className={`hamburger ${isMenuOpen ? "toggle" : ""}`}
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           <span className="bar"></span>
@@ -77,9 +79,11 @@ const [toast, setToast] = useState({ isOpen: false, title: "", message: "", type
           <span className="bar"></span>
         </div>
 
-       
         {isMenuOpen && (
-          <div className="menu-backdrop" onClick={() => setIsMenuOpen(false)}></div>
+          <div
+            className="menu-backdrop"
+            onClick={() => setIsMenuOpen(false)}
+          ></div>
         )}
 
         <div className={`navRight ${isMenuOpen ? "open" : ""}`}>
@@ -106,17 +110,15 @@ const [toast, setToast] = useState({ isOpen: false, title: "", message: "", type
           >
             Home
           </nav>
-          
+
           <nav
-            className="navList" 
+            className="navList"
             onClick={() => navigateAndClose("/recipes")}
             style={{ cursor: "pointer" }}
           >
             Recipe
           </nav>
-          
-          
-          
+
           {isLoggedIn ? (
             <>
               <button
@@ -137,15 +139,14 @@ const [toast, setToast] = useState({ isOpen: false, title: "", message: "", type
               Login / Sign Up
             </button>
           )}
-          
         </div>
       </div>
-      <Toast 
-        isOpen={toast.isOpen} 
-        title={toast.title} 
-        message={toast.message} 
-        type={toast.type} 
-        onClose={() => setToast({ ...toast, isOpen: false })} 
+      <Toast
+        isOpen={toast.isOpen}
+        title={toast.title}
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast({ ...toast, isOpen: false })}
       />
     </div>
   );

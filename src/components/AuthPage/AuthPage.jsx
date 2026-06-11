@@ -7,14 +7,14 @@ const validateField = (name, value) => {
   switch (name) {
     case "firstName":
       if (!value) return "First name is required";
-      if (!/^[a-zA-Z]{2,50}$/.test(value))
-        return "First name must be letters only, between 2 and 50 characters";
+      if (!/^[a-zA-Z]{2,20}$/.test(value))
+        return "First name must be letters only, between 2 and 20 characters";
       return "";
 
     case "lastName":
       if (!value) return "Last name is required";
-      if (!/^[a-zA-Z]{2,50}$/.test(value))
-        return "Last name must be letters only, between 2 and 50 characters";
+      if (!/^[a-zA-Z]{2,20}$/.test(value))
+        return "Last name must be letters only, between 2 and 20 characters";
       return "";
 
     case "username":
@@ -32,11 +32,11 @@ const validateField = (name, value) => {
     case "password":
       if (!value) return "Password is required";
       if (
-        !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
+        !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[.@$!%*?&])[A-Za-z\d.@$!%*?&]{8,}$/.test(
           value,
         )
       )
-        return "Password must be at least 8 characters and include an uppercase letter, lowercase letter, number and special character (@$!%*?&)";
+        return "Password must be at least 8 characters and include an uppercase letter, lowercase letter, number and special character (.@$!%*?&)";
       return "";
 
     default:
@@ -78,7 +78,6 @@ const AuthPage = () => {
   const [formData, setFormData] = useState(emptyForm);
   const [errors, setErrors] = useState(emptyErrors);
   const [touched, setTouched] = useState(emptyTouched);
-
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
 
@@ -88,27 +87,27 @@ const AuthPage = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
 
     if (isLogin && name === "password") {
-    setErrors((prev) => ({
-      ...prev,
-      password: value ? "" : "Password is required",
-    }));
-  } else {
-    setErrors((prev) => ({ ...prev, [name]: validateField(name, value) }));
-  }
-};
+      setErrors((prev) => ({
+        ...prev,
+        password: value ? "" : "Password is required",
+      }));
+    } else {
+      setErrors((prev) => ({ ...prev, [name]: validateField(name, value) }));
+    }
+  };
 
   const handleBlur = (e) => {
     const { name, value } = e.target;
     setTouched((prev) => ({ ...prev, [name]: true }));
     if (isLogin && name === "password") {
-    setErrors((prev) => ({
-      ...prev,
-      password: value ? "" : "Password is required",
-    }));
-  } else {
-    setErrors((prev) => ({ ...prev, [name]: validateField(name, value) }));
-  }
-};
+      setErrors((prev) => ({
+        ...prev,
+        password: value ? "" : "Password is required",
+      }));
+    } else {
+      setErrors((prev) => ({ ...prev, [name]: validateField(name, value) }));
+    }
+  };
 
   const isFormValid = () => {
     if (isLogin) {
@@ -143,7 +142,7 @@ const AuthPage = () => {
     setLoading(true);
 
     const endpoint = isLogin ? "/login" : "/register";
-    const url = `https://chefmaster-85kn.onrender.com${endpoint}`;
+    const url = `${import.meta.env.VITE_API_URL}${endpoint}`;
 
     const payload = isLogin
       ? { email: formData.email, password: formData.password }
