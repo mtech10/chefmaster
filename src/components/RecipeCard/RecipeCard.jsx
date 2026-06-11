@@ -8,6 +8,8 @@ const RecipeCard = ({
   showAdminControls = false,
   onEdit,
   onDelete,
+  isFavorite,
+  onToggleFavorite,
 }) => {
   const navigate = useNavigate();
   const isLoggedIn = !!localStorage.getItem("token");

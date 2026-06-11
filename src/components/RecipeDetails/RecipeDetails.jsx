@@ -1,60 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./RecipeDetails.css";
 
-const RecipeDetails = ({
-  recipe,
-  isLoggedIn,
-  onFavoriteClick,
-  isInitiallyFavorite = false,
-  onUnfavorite,
-}) => {
-  const { id, imageUrl, category, title, description, difficulty } = recipe;
-  const [isFavorite, setIsFavorite] = useState(isInitiallyFavorite || false);
-
-  useEffect(() => {
-    setIsFavorite(isInitiallyFavorite || false);
-  }, [isInitiallyFavorite]);
-
-  const handleFavoriteClick = (e) => {
-    e.stopPropagation();
-    if (!isLoggedIn) return;
-
-    setIsFavorite((prev) => {
-      const newState = !prev;
-
-      const toggleInDatabase = async () => {
-        try {
-          const token = localStorage.getItem("token");
-          const response = await fetch(
-            `${import.meta.env.VITE_API_URL}/api/favorites/toggle`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-              body: JSON.stringify({ recipeId: id }),
-            },
-          );
-
-          if (!response.ok) {
-            setIsFavorite(!newState);
-          } else if (!newState && onUnfavorite) {
-            onUnfavorite(id);
-          }
-        } catch (error) {
-          console.error("Failed to toggle favorite", error);
-          setIsFavorite(!newState);
-        }
-      };
-
-      toggleInDatabase();
-      return newState;
-    });
-  };
+const RecipeDetails = ({ recipe, isLoggedIn, isFavorite, onFavoriteClick }) => {
+  const { imageUrl, category, title, description, difficulty } = recipe;
 
   const getDifficultyClass = (level) => {
-    switch (level.toLowerCase()) {
+    switch (level?.toLowerCase()) {
       case "easy":
         return "badge-easy";
       case "medium":
@@ -65,13 +16,17 @@ const RecipeDetails = ({
         return "";
     }
   };
+
   return (
     <div className="recipeDetails">
       <div className="detailsImg-container">
         {isLoggedIn && (
           <button
             className={`favorite-btn ${isFavorite ? "active" : ""}`}
-            onClick={handleFavoriteClick}
+            onClick={(e) => {
+              e.stopPropagation();
+              onFavoriteClick();
+            }}
             aria-label={
               isFavorite ? "Remove from favorites" : "Add to favorites"
             }
@@ -80,6 +35,8 @@ const RecipeDetails = ({
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               className="heart-icon"
+              fill={isFavorite ? "red" : "none"}
+              stroke={isFavorite ? "red" : "currentColor"}
             >
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
             </svg>
@@ -95,7 +52,6 @@ const RecipeDetails = ({
               {difficulty}
             </span>
           </div>
-
           <h3 className="detailsTitle">{title}</h3>
           <p className="detailsDescription">{description}</p>
         </div>

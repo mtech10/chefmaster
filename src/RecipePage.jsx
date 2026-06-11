@@ -6,6 +6,7 @@ import RecipeStats from "./components/RecipeStats/RecipeStats";
 import Ingredients from "./components/Ingredients/Ingredients";
 import LoadingModal from "./components/Modals/LoadingModal";
 import DeleteModal from "./components/Modals/DeleteModal";
+import Toast from "./components/Modals/Toast";
 import Footer from "./components/Footer/Footer";
 
 const RecipePage = () => {
@@ -22,12 +23,18 @@ const RecipePage = () => {
   const [isFavorite, setIsFavorite] = useState(false);
   const isLoggedIn = !!localStorage.getItem("token");
 
+  const [toast, setToast] = useState({
+    isOpen: false,
+    title: "",
+    message: "",
+    type: "success",
+  });
+
   const token = localStorage.getItem("token");
   let currentUserId = null;
   if (token) {
     try {
       const payload = JSON.parse(atob(token.split(".")[1]));
-
       currentUserId = payload.id;
     } catch (e) {
       console.error("Could not decode token");
@@ -133,51 +140,65 @@ const RecipePage = () => {
     }
   };
 
-  const handleFavoriteClick = () => {
+  const handleFavoriteClick = async () => {
     if (!isLoggedIn || !recipe) return;
 
-    setIsFavorite((prev) => {
-      const newState = !prev;
+    const previousState = isFavorite;
+    setIsFavorite(!previousState);
 
-      const updateDb = async () => {
-        try {
-          const token = localStorage.getItem("token");
-          const response = await fetch(
-            `${import.meta.env.VITE_API_URL}/api/favorites/toggle`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-              body: JSON.stringify({ recipeId: recipe.id }),
-            },
-          );
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/favorites/toggle`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ recipeId: recipe.id }),
+        },
+      );
 
-          if (!response.ok) {
-            setIsFavorite(!newState);
-          }
-        } catch (error) {
-          console.error("Failed to toggle favorite", error);
-          setIsFavorite(!newState);
-        }
-      };
+      const data = await response.json();
 
-      updateDb();
-      return newState;
-    });
+      if (response.ok) {
+        setToast({
+          isOpen: true,
+          title: data.isFavorite
+            ? "Added to Favorites"
+            : "Removed from Favorites",
+          message: data.isFavorite
+            ? "Recipe saved successfully!"
+            : "Recipe removed from your list.",
+          type: "success",
+        });
+      } else {
+        throw new Error("Failed to toggle");
+      }
+    } catch (error) {
+      console.error("Failed to toggle favorite", error);
+      setIsFavorite(previousState);
+      setToast({
+        isOpen: true,
+        title: "Error",
+        message: "Failed to update favorites. Please try again.",
+        type: "error",
+      });
+    }
   };
 
   if (loading) {
     return (
       <div>
         <Navbar />
-
         <LoadingModal isOpen={true} message="Fetching recipe details..." />
       </div>
     );
   }
+
   const isAuthor = String(currentUserId) === String(recipe.author_id);
+
   return (
     <div>
       <Navbar />
@@ -191,6 +212,7 @@ const RecipePage = () => {
           isFavorite={isFavorite}
           onFavoriteClick={handleFavoriteClick}
         />
+
         {isAuthor && (
           <div
             style={{
@@ -282,6 +304,7 @@ const RecipePage = () => {
           instructions={recipe.instructions || []}
         />
       </main>
+
       <DeleteModal
         isOpen={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
@@ -289,9 +312,18 @@ const RecipePage = () => {
         isDeleting={isDeleting}
         itemName={recipe.title}
       />
+
+      <Toast
+        isOpen={toast.isOpen}
+        title={toast.title}
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast({ ...toast, isOpen: false })}
+      />
+
       <Footer />
     </div>
   );
-};
+}; // ✅ THIS IS THE DOOR THAT MUST CLOSE LAST!
 
 export default RecipePage;
