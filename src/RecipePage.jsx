@@ -95,7 +95,9 @@ const RecipePage = () => {
         if (response.ok) {
           const favorites = await response.json();
           const isFav = favorites.some(
-            (fav) => fav.id === recipe.id || fav.recipe_id === recipe.id,
+            (fav) =>
+              String(fav.id) === String(recipe.id) ||
+              String(fav.recipe_id) === String(recipe.id),
           );
           setIsFavorite(isFav);
         }
@@ -163,6 +165,7 @@ const RecipePage = () => {
       const data = await response.json();
 
       if (response.ok) {
+        setIsFavorite(data.isFavorite);
         setToast({
           isOpen: true,
           title: data.isFavorite
@@ -324,6 +327,6 @@ const RecipePage = () => {
       <Footer />
     </div>
   );
-}; // ✅ THIS IS THE DOOR THAT MUST CLOSE LAST!
+};
 
 export default RecipePage;
